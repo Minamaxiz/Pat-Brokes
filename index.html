@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>جراب Buds Pro الفاخر | حماية وأناقة لا تقارن</title> 
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet"> 
+    <style> 
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; } 
+        body { background-color: #f8f9fa; color: #333; line-height: 1.6; } 
+        .header { background: linear-gradient(135deg, #111, #333); color: #fff; text-align: center; padding: 15px; font-size: 14px; font-weight: 600; } 
+        .container { max-width: 600px; margin: 20px auto; background: #fff; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden; } 
+        .gallery { position: relative; background: #000; } 
+        .main-image-container { width: 100%; height: 380px; display: flex; align-items: center; justify-content: center; overflow: hidden; } 
+        .main-image-container img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s ease; } 
+        .thumbnails { display: flex; gap: 10px; padding: 12px; background: #111; justify-content: center; } 
+        .thumbnails img { width: 65px; height: 65px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; } 
+        .thumbnails img.active, .thumbnails img:hover { border-color: #d4af37; transform: scale(1.05); } 
+        .content { padding: 25px; } 
+        .product-title { font-size: 24px; font-weight: 900; color: #111; margin-bottom: 10px; } 
+        .price-box { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; } 
+        .current-price { font-size: 26px; font-weight: 900; color: #e67e22; } 
+        .old-price { font-size: 18px; color: #999; text-decoration: line-through; } 
+        .badge { background: #e74c3c; color: white; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; } 
+        .description { font-size: 15px; color: #555; margin-bottom: 25px; line-height: 1.8; } 
+        .features-list { list-style: none; margin-bottom: 25px; background: #fdfbf7; border: 1px solid #fae19c; padding: 15px 20px; border-radius: 10px; } 
+        .features-list li { margin-bottom: 8px; font-size: 14px; font-weight: 600; color: #444; display: flex; align-items: center; gap: 8px; } 
+        .features-list li::before { content: "✨"; } 
+        .form-group { margin-bottom: 20px; } label { display: block; font-weight: 700; margin-bottom: 8px; color: #222; font-size: 14px; } 
+        input, select { width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; outline: none; transition: border-color 0.2s; } 
+        input:focus, select:focus { border-color: #111; } 
+        .total-box { background: #f1f8ff; border: 1px solid #cce5ff; padding: 15px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 18px; font-weight: bold; color: #004085; margin-bottom: 20px; } 
+        .whatsapp-btn { background-color: #25d366; color: white; border: none; width: 100%; padding: 15px; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: background 0.2s; } 
+        .whatsapp-btn:hover { background-color: #1ebd59; } 
+        .footer { text-align: center; padding: 15px; font-size: 13px; color: #777; border-top: 1px solid #eee; } 
+    </style>
+</head>
+<body> 
+    <div class="header"> 🔥 عروض لفترة محدودة - التوصيل لجميع المحافظات! 🔥 </div> 
+    <div class="container"> 
+        <div class="gallery"> 
+            <div class="main-image-container"> 
+                <img id="mainImage" src="https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?auto=format&fit=crop&w=800&q=80" alt="جراب سماعة فاخر"> 
+            </div> 
+            <div class="thumbnails"> 
+                <img src="https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?auto=format&fit=crop&w=300&q=80" onclick="changeImage(this)" class="active" alt="صورة 1"> 
+                <img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=300&q=80" onclick="changeImage(this)" alt="صورة 2"> 
+                <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?auto=format&fit=crop&w=300&q=80" onclick="changeImage(this)" alt="صورة 3"> 
+            </div> 
+        </div> 
+        <div class="content"> 
+            <h1 class="product-title">جراب أسود فخم لسماعات Buds Pro (بحواف ذهبية وعلاقة أنيقة)</h1> 
+            <div class="price-box"> 
+                <span class="current-price" id="displayPrice">150 جنيه</span> 
+                <span class="old-price">300 جنيه</span> 
+                <span class="badge">خصم 50%</span> 
+            </div> 
+            <p class="description"> ارتقِ بشكل سماعاتك وحافظ عليها مع الجراب الأسود الفاخر المصنوع من خامات عالية الجودة ومقاومة للصدمات. يتميز بحواف ذهبية عصرية تمنحه مظهراً راقياً، مع سلسلة تعليق متينة لتعلقه بحقيبتك أو مفاتيحك بأمان تام وأناقة لا مثيل لها. </p> 
+            <ul class="features-list"> 
+                <li>خامة سيليكون فاخرة وملمس ناعم مضاد للبصمات</li> 
+                <li>حماية شاملة 360 درجة ضد السقوط والخدوش</li> 
+                <li>تصميم دقيق يتيح الشحن السلكي واللاسلكي بسهولة دون إزالة الجراب</li> 
+                <li>مرفق بعلاقة/سلسلة معدنية متينة لسهولة الحمل في أي مكان</li> 
+            </ul> 
+            <div id="orderForm"> 
+                <div class="form-group"> <label for="fullName">الاسم بالكامل:</label> <input type="text" id="fullName" placeholder="اكتب اسمك هنا..." required> </div> 
+                <div class="form-group"> <label for="phone">رقم الهاتف:</label> <input type="tel" id="phone" placeholder="اكتب رقم هاتفك هنا..." required> </div> 
+                <div class="form-group"> <label for="address">العنوان بالتفصيل (المحافظة - المنطقة - الشارع):</label> <input type="text" id="address" placeholder="اكتب عنوانك بالتفصيل..." required> </div> 
+                <div class="form-group"> 
+                    <label for="quantity">الكمية:</label> 
+                    <select id="quantity" onchange="updateTotal()"> 
+                        <option value="1">1 قطعة</option> 
+                        <option value="2">2 قطعة</option> 
+                        <option value="3">3 قطع</option> 
+                        <option value="4">4 قطع</option> 
+                        <option value="5">5 قطع</option> 
+                        <option value="6">6 قطع</option> 
+                        <option value="7">7 قطع</option> 
+                        <option value="8">8 قطع</option> 
+                        <option value="9">9 قطع</option> 
+                        <option value="10">10 قطع</option> 
+                    </select> 
+                </div> 
+                <div class="form-group"> 
+                    <label for="paymentMethod">طريقة الدفع:</label> 
+                    <select id="paymentMethod"> 
+                        <option value="الدفع عند الاستلام">الدفع عند الاستلام</option> 
+                        <option value="محفظة إلكترونية (فودافون كاش / إنستاباي)">محفظة إلكترونية (فودافون كاش / إنستاباي)</option> 
+                    </select> 
+                </div> 
+                <div class="total-box"> <span>الإجمالي الكلي:</span> <span id="totalPrice">150 جنيه</span> </div> 
+                <button class="whatsapp-btn" onclick="sendToWhatsApp()"> 💬 إرسال الطلب عبر الواتساب </button> 
+            </div> 
+        </div> 
+        <div class="footer"> جميع الحقوق محفوظة © 2026 - متجرك المميز </div> 
+    </div> 
+    <script> 
+        const unitPrice = 150; 
+        function changeImage(element) { document.getElementById('mainImage').src = element.src; let thumbs = document.querySelectorAll('.thumbnails img'); thumbs.forEach(thumb => thumb.classList.remove('active')); element.classList.add('active'); } 
+        function updateTotal() { let qty = document.getElementById('quantity').value; let total = qty * unitPrice; document.getElementById('totalPrice').innerText = total + " جنيه"; } 
+        function sendToWhatsApp() { let name = document.getElementById('fullName').value.trim(); let phone = document.getElementById('phone').value.trim(); let address = document.getElementById('address').value.trim(); let quantity = document.getElementById('quantity').value; let payment = document.getElementById('paymentMethod').value; let total = quantity * unitPrice; if (!name || !phone || !address) { alert("برجاء إدخال الاسم، رقم الهاتف، والعنوان كاملين."); return; } let message = `🛒 *طلب جديد لجراب Buds Pro*%0A%0A` + `👤 *الاسم:* ${name}%0A` + `📞 *الهاتف:* ${phone}%0A` + `📍 *العنوان:* ${address}%0A` + `📦 *الكمية:* ${quantity} قطعة%0A` + `💰 *الإجمالي:* ${total} جنيه%0A` + `💳 *طريقة الدفع:* ${payment}`; let merchantNumber = "201112786818"; let url = `https://wa.me/${merchantNumber}?text=${message}`; window.open(url, '_blank'); } 
+    </script>
+</body>
+</html>
