@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إلى نور عيني.. يوستينا</title>
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700;900&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-rose: #ff2a5f;
+            --rose-glow: rgba(255, 42, 95, 0.4);
+            --deep-bg: #0a060a;
+            --card-glass: rgba(26, 16, 26, 0.65);
+            --border-glass: rgba(255, 255, 255, 0.12);
+            --text-gold: #f3cf7a;
+            --text-light: #f5e6f0;
+            --text-muted: #b3a0ac;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--deep-bg);
+            color: var(--text-light);
+            font-family: 'Cairo', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ambient Animated Background Canvas */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Floating Audio Control */
+        .music-player {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            z-index: 9999;
+            background: rgba(20, 10, 20, 0.8);
+            border: 1px solid var(--primary-rose);
+            padding: 12px 20px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 0 25px var(--rose-glow);
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .music-player:hover {
+            transform: scale(1.05);
+            background: var(--primary-rose);
+            color: #fff;
+        }
+
+        .music-icon {
+            font-size: 1.2rem;
+            color: var(--primary-rose);
+            animation: pulse 2s infinite;
+        }
+
+        .music-player:hover .music-icon {
+            color: #fff;
+        }
+
+        /* Section Global Setup */
+        section {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 90px 20px;
+        }
+
+        .section-title {
+            font-family: 'Reem Kufi', sans-serif;
+            font-size: 2.8rem;
+            color: var(--text-gold);
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+            text-shadow: 0 0 20px rgba(243, 207, 122, 0.3);
+        }
+
+        .section-title::after {
+            content: '♥';
+            display: block;
+            font-size: 1.5rem;
+            color: var(--primary-rose);
+            margin-top: 10px;
+        }
+
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: var(--card-glass);
+            border: 1px solid var(--border-glass);
+            backdrop-filter: blur(20px);
+            border-radius: 28px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: var(--primary-rose);
+            box-shadow: 0 25px 60px var(--rose-glow);
+            transform: translateY(-5px);
+        }
+
+        /* Hero Section */
+        #hero {
+            background: radial-gradient(circle at center, rgba(80, 15, 45, 0.4) 0%, transparent 70%);
+            text-align: center;
+        }
+
+        .hero-title {
+            font-family: 'Amiri', serif;
+            font-size: 5.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 0%, var(--text-gold) 50%, var(--primary-rose) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero-subtitle {
+            font-size: 2rem;
+            color: var(--text-gold);
+            letter-spacing: 6px;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        /* Countdown Timer */
+        .timer-container {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .timer-box {
+            background: rgba(35, 15, 30, 0.7);
+            border: 1px solid var(--border-glass);
+            border-top: 3px solid var(--primary-rose);
+            width: 130px;
+            height: 140px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .timer-val {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 15px var(--primary-rose);
+        }
+
+        .timer-lbl {
+            font-size: 0.95rem;
+            color: var(--text-gold);
+            margin-top: 5px;
+        }
+
+        /* Timeline Badge */
+        .timeline-badge {
+            text-align: center;
+            max-width: 650px;
+        }
+
+        .date-chip {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-rose), #990033);
+            color: #fff;
+            font-size: 2rem;
+            font-weight: 700;
+            padding: 12px 35px;
+            border-radius: 50px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px var(--rose-glow);
+            letter-spacing: 2px;
+        }
+
+        /* Gallery Memories */
+        .gallery-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+            width: 100%;
+            max-width: 850px;
+        }
+
+        .memory-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .memory-img-frame {
+            position: relative;
+            width: 100%;
+            max-height: 480px;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            border: 2px solid var(--border-glass);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+        }
+
+        .memory-img-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s ease;
+        }
+
+        .memory-card:hover .memory-img-frame img {
+            transform: scale(1.06);
+        }
+
+        .memory-desc {
+            font-size: 1.35rem;
+            line-height: 2;
+            color: var(--text-light);
+            text-align: center;
+            font-weight: 300;
+        }
+
+        /* Story & Reasons Box */
+        .story-box, .reason-box {
+            max-width: 900px;
+            width: 100%;
+            line-height: 2.2;
+            font-size: 1.3rem;
+            text-align: justify;
+            color: #f0e2ed;
+        }
+
+        /* Password Lock Area */
+        .lock-card {
+            max-width: 650px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .lock-icon-wrap {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 42, 95, 0.15);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 25px;
+            font-size: 2.2rem;
+            color: var(--primary-rose);
+            box-shadow: 0 0 30px var(--rose-glow);
+        }
+
+        .pass-field {
+            width: 250px;
+            padding: 16px;
+            background: rgba(10, 5, 10, 0.8);
+            border: 2px solid var(--border-glass);
+            border-radius: 15px;
+            color: var(--text-gold);
+            font-size: 1.6rem;
+            text-align: center;
+            outline: none;
+            margin-bottom: 25px;
+            letter-spacing: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .pass-field:focus {
+            border-color: var(--primary-rose);
+            box-shadow: 0 0 20px var(--rose-glow);
+        }
+
+        .btn-unlock {
+            background: linear-gradient(135deg, var(--primary-rose), #b3003b);
+            color: #fff;
+            padding: 16px 45px;
+            font-size: 1.25rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            box-shadow: 0 10px 30px var(--rose-glow);
+            transition: all 0.3s ease;
+        }
+
+        .btn-unlock:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 15px 40px var(--primary-rose);
+        }
+
+        #secret-message-box {
+            display: none;
+            animation: fadeIn 1s ease forwards;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 3.8rem; }
+            .hero-subtitle { font-size: 1.3rem; letter-spacing: 3px; }
+            .section-title { font-size: 2.1rem; }
+            .timer-box { width: 90px; height: 100px; }
+            .timer-val { font-size: 2rem; }
+            .glass-card { padding: 25px; }
+            .story-box, .reason-box { font-size: 1.15rem; line-height: 2; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Particles Background -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Music Player Controls -->
+    <div class="music-player" onclick="toggleAudio()">
+        <i class="fa-solid fa-heart music-icon" id="audio-icon"></i>
+        <span id="audio-txt">تشغيل أغنيتنا 🎵</span>
+    </div>
+
+    <audio id="romantic-audio" loop>
+        <source src="Zikrayatna.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <h1 class="hero-title">يوستينا</h1>
+        <div class="hero-subtitle">نور عيني وقلبي</div>
+    </section>
+
+    <!-- Countdown Section -->
+    <section id="countdown">
+        <h2 class="section-title">الوقت الذي جمعنا</h2>
+        <div class="timer-container">
+            <div class="timer-box"><span class="timer-val" id="days">0</span><span class="timer-lbl">أيام</span></div>
+            <div class="timer-box"><span class="timer-val" id="hours">0</span><span class="timer-lbl">ساعات</span></div>
+            <div class="timer-box"><span class="timer-val" id="minutes">0</span><span class="timer-lbl">دقائق</span></div>
+            <div class="timer-box"><span class="timer-val" id="seconds">0</span><span class="timer-lbl">ثواني</span></div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section id="timeline">
+        <h2 class="section-title">بداية الحكاية</h2>
+        <div class="glass-card timeline-badge">
+            <div class="date-chip">26 / 07 / 2026</div>
+            <p style="font-size: 1.3rem; line-height: 1.8;"><strong>تاريخ أول يوم رأيتكِ فيه.</strong><br>كانت اللحظة التي تغيرت فيها حياتي للأبد، وبدأت معكِ أجمل أيام عمري.</p>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery">
+        <h2 class="section-title">أغلى الذكريات</h2>
+        <div class="gallery-wrapper">
+            
+            <div class="glass-card memory-card">
+                <div class="memory-img-frame">
+                    <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=1000&q=80" alt="ذوقنا الأول">
+                </div>
+                <p class="memory-desc">"أول صورة جمعتنا.. التي كلما نظرتُ إليها تذكرتُ كل شيء جميل، حتى كوب العصير الذي لم نكمله."</p>
+            </div>
+
+            <div class="glass-card memory-card">
+                <div class="memory-img-frame">
+                    <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=1000&q=80" alt="ضحكتك الجذابة">
+                </div>
+                <p class="memory-desc">اليوم ده بقى كان مميز برضه علشان شوفتك فيه. وكمان اليوم ده كان حلو خالص وأنتِ سألتيني كتير سواء اتبسطت أو لأ، فأنا عايز أقول لك إني اتبسطت قوي قوي في اليوم ده، وانبسطت أكتر بضحكتك اللي كانت بتبسطني فوق ما تتخيلي. وبعدين أنا بحب أغفلك قوي في الصور، وبجد الصورة دي تحفة. واليوم كان جميل قوي قوي قوي.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Reasons Section -->
+    <section id="reasons">
+        <h2 class="section-title">أسباب تجعلني أحبك</h2>
+        <div class="glass-card reason-box">
+            "السبب الذي يجعلي أحبكِ هو أنكِ دائماً مبتسمة، أحب أن أراكِ سعيدة. أحب حنانكِ جداً، وتفاهمكِ معي، وأحب أنكِ تمنحينني عذري عندما أكون مشغولاً. أحب جداً رغبتكِ في التقرب من أهلي، وأنا أيضاً أحب التقرب من أهلكِ. أحب احترامكِ لي، وجودكِ وتشجيعكِ، وأعشق محبتكِ الصادقة."
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section id="story">
+        <h2 class="section-title">قصة حبنا</h2>
+        <div class="glass-card story-box">
+            <p>في يوم من الأيام كنت رايح فرح عادي وما كنتش حاطط في حسباني أي حاجة، وما كنتش أعرفك يا يوستينا. ولأول مرة، وكانت صدفة كبيرة جداً وترتيب من ربنا. إن أنا أتصادف معاكي. وأشوف شكلك لأول مرة كصورة. وكان وبجد أنا أعجبت بيكي من أول مرة شوفتك فيها. وكنت مصر قوي أوصلك وأتكلم معاكي. وأعرفك. وأتعرف عليكي كويس. وحقيقي أنا ما أعرفش إزاي ده حصل وإمتى. ولكن أنا واثق إن هو إيد ربنا في الموضوع ده. وبجد لأول مرة بعت لك رسالة. وقلت لك فيها أنا مينا. أنا كنت قد إيه متوتر. وكنت قلقان من التجربة دي. وكنت حاسس إنه أنا شخص مش أحسن حاجه. ومش شاطر في الحاجات دي خالص. لكن أنتِ غيرتي كل حاجة. وبدأنا إن إحنا نتكلم. مرة بعد مرة بعد مرة. قربت منك أكتر. جيت وشوفتك لأول مرة. وكنت أحلى بنت شوفتها في حياتي. وتعرفت عليكي وأكتر وشوفت شكلي وشوفت شكلك. وشوفت أبوكي كويس وأمك وإخواتك وكلهم. وبجد بدأت أحسن قصة حب ممكن أي حد يتوقعها. وهي مش بس قصة حب صالونات أو خطوبة صالونات. إحنا عكسنا الكلمة دي بتاتاً. حقيقي أنا مديون ليكي بعمري كله. مديون ليكي بقلبي. اللي أنا بقيت حاسس بمشاعر قوية فيه. حقيقي شكراً ليكي لوجودك. ولكل جزء حلو عشتيه معايا.</p>
+        </div>
+    </section>
+
+    <!-- Locked Secret Message -->
+    <section id="locked-message">
+        <h2 class="section-title">رسالة لنور عيني يوستينا</h2>
+        
+        <div class="glass-card lock-card" id="lock-screen">
+            <div class="lock-icon-wrap">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+            <p style="margin-bottom: 20px; font-size: 1.2rem; color: var(--text-gold);">أدخلي كلمة السر الخاصة (تاريخ يومنا المميز)</p>
+            <input type="text" id="passInput" class="pass-field" placeholder="20,2,20">
+            <br>
+            <button class="btn-unlock" onclick="unlockSecret()">افتحي الرسالة ♥</button>
+        </div>
+
+        <div class="glass-card lock-card" id="secret-message-box">
+            <div class="lock-icon-wrap" style="background: rgba(243, 207, 122, 0.15); color: var(--text-gold);">
+                <i class="fa-solid fa-envelope-open-text"></i>
+            </div>
+            <p style="font-size: 1.35rem; line-height: 2.1; color: #fff; font-style: italic;">
+                "من أول يوم جمَعنا، واللحظة دي حفرت مكانها في قلبي. أول صورة لينا سوا مش مجرد صورة على موبايلي، دي كانت بداية كل حاجة حلوة في حياتي.. بفتكر معاها كل تفصيلة، حتى كوباية العصير اللي مكملتش وضحكتنا العفوية اللي طالعة من القلب. كل يوم بيمر وأنتِ معايا بيتسجل في عمري، والعداد ده مش بس بيحسب الأيام والساعات، ده بيحسب كمية السعادة والراحة اللي دخلت حياتي من يوم ما عرفتك. بحبك جداً."
+            </p>
+        </div>
+    </section>
+
+    <script>
+        // Audio Toggle
+        let playing = false;
+        const audio = document.getElementById('romantic-audio');
+        const audioTxt = document.getElementById('audio-txt');
+        const audioIcon = document.getElementById('audio-icon');
+
+        function toggleAudio() {
+            if (!playing) {
+                audio.play().then(() => {
+                    playing = true;
+                    audioTxt.innerText = "شغالة بحب 🎶";
+                    audioIcon.className = "fa-solid fa-pause music-icon";
+                }).catch(() => {
+                    alert("يرجى التأكد من إضافة ملف الصوتي Zikrayatna.mp3 بنفس المجلد.");
+                });
+            } else {
+                audio.pause();
+                playing = false;
+                audioTxt.innerText = "تشغيل أغنيتنا 🎵";
+                audioIcon.className = "fa-solid fa-heart music-icon";
+            }
+        }
+
+        // Live Countdown Logic (Target: 26 July 2026)
+        const targetDate = new Date('July 26, 2026 00:00:00').getTime();
+
+        function calculateTime() {
+            const now = new Date().getTime();
+            const diff = now - targetDate;
+
+            if (diff > 0) {
+                document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+                document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById('minutes').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById('seconds').innerText = Math.floor((diff % (1000 * 60)) / 1000);
+            }
+        }
+        setInterval(calculateTime, 1000);
+        calculateTime();
+
+        // Unlock Password Check
+        function unlockSecret() {
+            const val = document.getElementById('passInput').value.trim();
+            if (val === "20,2,20") {
+                document.getElementById('lock-screen').style.display = 'none';
+                document.getElementById('secret-message-box').style.display = 'block';
+            } else {
+                alert("كلمة السر غير صحيحة يا حبيبتي، حاولي مرة أخرى! ♥");
+            }
+        }
+
+        // Animated Hearts Particles Effect
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const hearts = [];
+        for (let i = 0; i < 35; i++) {
+            hearts.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 12 + 6,
+                speedY: Math.random() * 1 + 0.4,
+                opacity: Math.random() * 0.5 + 0.2
+            });
+        }
+
+        function drawHearts() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            hearts.forEach(h => {
+                ctx.globalAlpha = h.opacity;
+                ctx.fillStyle = '#ff2a5f';
+                ctx.font = `${h.size}px serif`;
+                ctx.fillText('♥', h.x, h.y);
+                h.y -= h.speedY;
+                if (h.y < -20) {
+                    h.y = canvas.height + 20;
+                    h.x = Math.random() * canvas.width;
+                }
+            });
+            requestAnimationFrame(drawHearts);
+        }
+        drawHearts();
+    </script>
+</body>
+</html>
